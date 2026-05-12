@@ -1,15 +1,17 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-// Get a free hosted Postgres database in seconds: `npx create-db`
 
+// This generates the Prisma client
 generator client {
   provider = "prisma-client-js"
 }
 
+// This defines PostgreSQL as the database provider
 datasource db {
   provider = "postgresql"
 }
 
+// This represents a registered user of the application 
 model User {
   id           Int           @id @default(autoincrement())
   email        String        @unique
@@ -18,6 +20,7 @@ model User {
   applications Application[]
 }
 
+// This represents a single job application on the Kanban board
 model Application {
   id        Int             @id @default(autoincrement())
   company   String
@@ -25,7 +28,7 @@ model Application {
   location  String?
   url       String?
   contact   String?
-  stage     Stage           @default(Applied)
+  stage     Stage           @default(APPLIED)
   priority  Boolean         @default(false)
   appliedAt DateTime        @default(now())
   deadline  DateTime?
@@ -35,14 +38,16 @@ model Application {
   history   StatusHistory[]
 }
 
+// This logs each time an application moves between Kanban stages
 model StatusHistory {
-  id            Int
+  id            Int         @id @default(autoincrement())
   stage         Stage
   changedAt     DateTime    @default(now())
   applicationId Int
   application   Application @relation(fields: [applicationId], references: [id])
 }
 
+// This defines the four Kanban stages an application can be in
 enum Stage {
   APPLIED
   INTERVIEW
