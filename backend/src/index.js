@@ -1,11 +1,11 @@
 import express from "express";
 import cors from "cors";
-import dotnev from "dotenv";
-import authRoutes from "authRoutes";
-import applicationRoutes from "applicationRoutes";
+import dotenv from "dotenv";
+import authRoutes from "./routes/auth.js";
+import applicationRoutes from "./routes/applications.js";
 
 // Loading environmental variables from the .env file
-dotnev.config();
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,14 +20,12 @@ app.use("/api/applications", applicationRoutes);
 
 // Checking health status to see if the application is running correctly
 app.get("/api/health", (req, res) => {
-    res.json({ status: "Server is running" });
+    res.json({ status: 'Server is running' });
 });
 
 // Starting the server
-app.lisen(PORT, () => {
-    console.log("Server is running on port ${PORT}");
+app.listen(PORT, () => {
+    console.log('Server is running on port ${PORT}');
 });
-
-
 
 
