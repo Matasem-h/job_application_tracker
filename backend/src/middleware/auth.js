@@ -1,6 +1,7 @@
+// This is middleware to protect routes by verifying tokens
 import jwt from "jsonwebtoken"
 
-const authinticateToken = (req, res, next) => {
+const authenticateToken = (req, res, next) => {
     // Obtaining the token from the authorization header
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1]; // Example format: "Bearer TOKEN"
@@ -12,11 +13,11 @@ const authinticateToken = (req, res, next) => {
     // Verifying that the token is valid and not expired
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) {
-            return res.status(403).jso({ message: "Token is invalid or expired" });
+            return res.status(403).json({ message: "Token is invalid or expired" });
         }
         req.user = user; // Attaching decoded user data to the request
         next(); // Moving on to the next function
     });
 };
 
-export default authinticateToken;
+export default authenticateToken;
