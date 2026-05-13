@@ -31,8 +31,8 @@ export const register = async (req, res) => {
     }
 };
 
-// Loging-in for an existing user
-export const logic = async (req, res) => {
+// Logging as an existing user
+export const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
@@ -52,12 +52,12 @@ export const logic = async (req, res) => {
         const token = jwt.sign(
             { id: user.id, email: user.email },
             process.env.JWT_SECRET,
-            { expiration: "7d" },
+            { expiresIn: "7d" },
         );
 
         res.json({ token, user: { id: user.id, email: user.email } });
     } catch (error) {
-        res.status(500).json({ message: "Server error during loging." })
+        res.status(500).json({ message: "Server error during login." })
     }
 };
 
