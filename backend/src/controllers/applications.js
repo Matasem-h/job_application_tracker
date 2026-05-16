@@ -62,42 +62,30 @@ export const getApplicationById = async (req, res) => {
     }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-// PUT /api/applications/:id ---> Updating an existing application
-export const updateApplication = async(req, res) => {
-    const { company, role, location, url, contact, deadline, notes, priority, stage }
+// PUT Operation ---> Updates an existing application
+export const updateApplication = async (req, res) => {
+    const { company, role, location, url, contact, deadline, notes, priority, stage } = req.body;
     try {
-        // First verify that the application exists and that it belongs to the logged-in user
+        // Confirming the existence of the application and that it is belongs to the user 
         const existing = await prisma.application.findFirst({
             where: {id: parseInt(req.params.id), userId: req.user.id },
         });
         
         if (!existing) {
-            return res.status(404).json({ message: "Application not found."});
+            return res.status(404).json({ message: "Application not found." });
         }
 
-        // If the stage has changed, log it in the status history
+        // Logging status history if the application stage changed
         if (stage && stage !== existing.stage) {
-            await prisma.status.statusHistory.create({
-                await prisma.statusHistory.create({
+            await prisma.statusHistory.create({
                     data: {
                         stage,
                         applicationId: existing.id,
                     },
                 });
             }
-        // Update the application with the new data
+
+        // Updating the application using new data
         const updated = await prisma.application.update({
             where: { id: existing.id },
             data: {
@@ -115,14 +103,27 @@ export const updateApplication = async(req, res) => {
 
         res.json(updated);
     } catch (error) {
-        res.status(500).json({ message: "Server error while updating application."});
+        res.status(500).json({ message: "Server error while updating application." });
     }
 };
-        )
 
-        }
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // DELETE /api/applications/:id ---> Deleting an application
 export const deleteApplication = async (req, res) => {
