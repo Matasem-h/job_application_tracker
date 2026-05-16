@@ -18,23 +18,9 @@ export const getApplications = async (req, res) => {
     }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// POST /api/applications ---> Creating a new job application
+// POST operation ---> Creates a new job application
 export const createApplication = async (req, res) => {
-    const { company, role, location, url, contract, deadline, notes, priority } = req.body;
+    const { company, role, location, url, contact, deadline, notes, priority } = req.body;
     try {
         const application = await prisma.application.create({
             data: {
@@ -43,59 +29,50 @@ export const createApplication = async (req, res) => {
                 location,
                 url,
                 contact,
-                deadline: deadline ? new Date(deadline) : null, // sss
+                deadline: deadline ? new Date(deadline) : null,
                 notes,
                 priority: priority || false,
-                uderId: req.user.id, // sss
+                userId: req.user.id,
             },
         });
         res.status(201).json(application);
     } catch (error) {
-        res.status(500).json({ message: "Server error while creating the application."})
+        res.status(500).json({ message: "Server error while creating the application."});
     }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// GET /api/applications/:id ---> Retrieving a single application by ID
+// GET operation ---> Retrieves a single application by ID
 export const getApplicationById = async (req, res) => {
     try {
         const application = await prisma.application.findFirst({
             where: {
-                id: parseInt(req.params.id), // sss
-                userId: req.user.id, // sss
+                id: parseInt(req.params.id),
+                userId: req.user.id,
             },
-            include: { history: true }, // sss
+            include: { history: true },
         });
 
         if (!application) {
-            return res.status(404).json({ message: "Application not found."});
+            return res.status(404).json({ message: "Application not found." });
         }
         
         res.json(application);
     } catch (error) {
-        res.status(500).json({ message: "Server error while fetching the application. "});
+        res.status(500).json({ message: "Server error while fetching the application." });
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
 
 // PUT /api/applications/:id ---> Updating an existing application
 export const updateApplication = async(req, res) => {
