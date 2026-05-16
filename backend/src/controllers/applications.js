@@ -1,6 +1,5 @@
-// This file handles all CRUD opertaions for job applications
+// This file handles all CRUD operations for job applications
 import { PrismaClient } from "@prisma/client";
-import { application } from "express";
 
 const prisma = new PrismaClient();
 
@@ -41,7 +40,7 @@ export const createApplication = async (req, res) => {
     }
 };
 
-// GET operation ---> Retrieves a single application by ID
+// GET operation ---> Retrieves a single application by its ID
 export const getApplicationById = async (req, res) => {
     try {
         const application = await prisma.application.findFirst({
@@ -135,19 +134,19 @@ export const deleteApplication = async (req, res) => {
     }
 };
 
-// GET /api/applications/stats ---> Retrieving the dashboard statistics
+// GET Operation ---> Retrieves several dashboard statistics 
 export const getStats = async (req, res) => {
     try {
-        const appliactions await prisma.appliaction.findMany({
+        const applications = await prisma.application.findMany({
             where: { userId: req.user.id },
         });
 
         // Calculating statistics from the application data
-        const total = appliactions.length;
-        const applied = appliactions.filter(a => a.stage === "APPLIED").length;
-        const interview = appliactions.filter(a => a.stage === "INTERVIEW").length;
-        const offer = appliactions.filter(a => a.stage === "OFFER").length;
-        const rejected = appliactions.filter(a => a.stage === "REJECTED").length;
+        const total = applications.length;
+        const applied = applications.filter(a => a.stage === "APPLIED").length;
+        const interview = applications.filter(a => a.stage === "INTERVIEW").length;
+        const offer = applications.filter(a => a.stage === "OFFER").length;
+        const rejected = applications.filter(a => a.stage === "REJECTED").length;
         const responseRate = total > 0 ? Math.round((interview + offer) / total * 100) : 0;
 
         res.json({ total, applied, interview, offer, rejected, responseRate });
