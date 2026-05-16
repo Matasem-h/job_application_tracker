@@ -1,10 +1,10 @@
-// Handles 
+// This file handles all CRUD opertaions for job applications
 import { PrismaClient } from "@prisma/client";
+import { application } from "express";
 
 const prisma = new PrismaClient();
 
 // GET /api/applications ---> Retrieving all applications for the logged-in user
-
 export const getApplications = async (req, res) => {
     try {
         const applications = await prisma.application.findMany({
@@ -62,6 +62,51 @@ export const getApplicationById = async (req, res) => {
     }
 };
 
+// PUT /api/applications/:id ---> Updating an existing application
+export const updateApplication = async(req, res) => {
+    const { company, role, location, url, contact, deadline, notes, priority, stage }
+    try {
+        // First verify that the application exists and that it belongs to the logged-in user
+        const existing = await prisma.application.findFirst({
+            where: {id: parseInt(req.params.id), userId: req.user.id },
+        });
+        
+        if (!existing) {
+            return res.status(404).json({ message: "Application not found."});
+        }
+
+        // If the stage has changed, log it in the status history
+        if (stage && stage !== existing.stage) {
+            await prisma.status.statusHistory.create({
+                await prisma.statusHistory.create({
+                    data: {
+                        stage,
+                        applicationId: existing.id,
+                    },
+                });
+            }
+        // Update the application with the new data
+        const updated = await prisma.application.update({
+            where: { id: existing.id },
+            data: {
+                company,
+                role,
+                location,
+                url,
+                contact,
+                deadline: deadline ? new Date(deadline) : null,
+                notes,
+                priority,
+                stage,
+            }
+        });
+
+        
+        )
+
+        }
+    }
+}
 
 
 
