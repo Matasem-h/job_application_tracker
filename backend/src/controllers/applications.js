@@ -4,19 +4,33 @@ import { application } from "express";
 
 const prisma = new PrismaClient();
 
-// GET /api/applications ---> Retrieving all applications for the logged-in user
+// GET Operation ---> Retrieves all applications for the current user
 export const getApplications = async (req, res) => {
     try {
         const applications = await prisma.application.findMany({
-            where: { userId: req.user.id }, // sss
-            include: { history: true}, /// sss
-            orderBy: { applied: "desc"}, //sss
+            where: { userId: req.user.id }, // Ensures that only the user's applications are returned
+            include: { history: true}, /// Include the status history of each application 
+            orderBy: { appliedAt: "desc"}, // Display newest application first
         });
         res.json(applications);
     } catch (error){
         res.status(500).json({message: "Server error while fetching applications."});
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // POST /api/applications ---> Creating a new job application
 export const createApplication = async (req, res) => {
@@ -40,6 +54,27 @@ export const createApplication = async (req, res) => {
         res.status(500).json({ message: "Server error while creating the application."})
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // GET /api/applications/:id ---> Retrieving a single application by ID
 export const getApplicationById = async (req, res) => {
