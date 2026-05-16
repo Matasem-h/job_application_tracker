@@ -66,7 +66,7 @@ export const getApplicationById = async (req, res) => {
 export const updateApplication = async (req, res) => {
     const { company, role, location, url, contact, deadline, notes, priority, stage } = req.body;
     try {
-        // Confirming the existence of the application and that it is belongs to the user 
+        // Confirming the existence of the application and that it belongs to the user
         const existing = await prisma.application.findFirst({
             where: {id: parseInt(req.params.id), userId: req.user.id },
         });
@@ -107,28 +107,10 @@ export const updateApplication = async (req, res) => {
     }
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// DELETE /api/applications/:id ---> Deleting an application
+// DELETE Operation ---> Deletes an application
 export const deleteApplication = async (req, res) => {
     try {
-        // First verify that the application exists and that it belongs to the logged-in user
+        // Confirming the existence of the application and that it belongs to the user
         const existing = await prisma.application.findFirst({
             where: { id: parseInt(req.params.id), userId: req.user.id },
         });
@@ -137,19 +119,19 @@ export const deleteApplication = async (req, res) => {
             return res.status(404).json({ message: "Application not found." });
         }
 
-        // Deleting status history firsts due to database foreign key constraints
+        // Deleting status history
         await prisma.statusHistory.deleteMany({
             where: { applicationId: existing.id },
         });
 
-        // Then delete the application itself
+        // Deleting the application
         await prisma.application.delete({
             where: { id: existing.id },
         });
 
         res.json({ message: "Application deleted successfully."});
     } catch (error) {
-        res.status(500).json({ message: "Server error while deleting the appliaction"});
+        res.status(500).json({ message: "Server error while deleting the application"});
     }
 };
 
