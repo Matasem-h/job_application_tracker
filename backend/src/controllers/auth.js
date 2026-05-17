@@ -2,9 +2,7 @@
 
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../lib/prisma.js";
 
 // Registering a new user
 export const register = async (req, res) => {
@@ -27,6 +25,7 @@ export const register = async (req, res) => {
 
         res.status(201).json({ message: "Account successfully created." });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: "Server encountered an error during registration." })
     }
 };

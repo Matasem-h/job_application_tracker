@@ -1,7 +1,5 @@
 // This file handles all CRUD operations for job applications
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../lib/prisma.js";
 
 // GET Operation ---> Retrieves all applications for the current user
 export const getApplications = async (req, res) => {
