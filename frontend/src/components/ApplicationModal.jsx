@@ -137,17 +137,3 @@ const ApplicationModal = ({application, initialStage, onClose, onSave, onDelete}
 export default ApplicationModal;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
