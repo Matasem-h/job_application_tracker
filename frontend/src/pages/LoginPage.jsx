@@ -55,7 +55,7 @@ return (
         <div style={{ flex: 4, backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center", padding: "3rem" }}>
             <div style={{ width: "100%", maxWidth: "400px" }}>
                 <h2 style={{ fontSize: "1.75rem", fontWeight: "700", color: "#262A33", marginBottom: "0.5rem" }}>
-                    {isLogin ? "Welcome!" : "Create account"}
+                    {isLogin ? "Welcome!" : "Create an account"}
                 </h2>
                 <p style={{ color: "#627296", marginBottom: "2rem", fontSize: "0.9rem" }}>
                     {isLogin ? "Log in to your account to continue." : "Start tracking your job search today."}

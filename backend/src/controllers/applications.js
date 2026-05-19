@@ -17,7 +17,7 @@ export const getApplications = async (req, res) => {
 
 // POST operation ---> Creates a new job application
 export const createApplication = async (req, res) => {
-    const { company, role, location, url, contact, deadline, notes, priority } = req.body;
+    const { company, role, location, url, contact, deadline, notes, priority, stage } = req.body;
     try {
         const application = await prisma.application.create({
             data: {
@@ -29,9 +29,19 @@ export const createApplication = async (req, res) => {
                 deadline: deadline ? new Date(deadline) : null,
                 notes,
                 priority: priority || false,
+                stage: stage || "APPLIED",
                 userId: req.user.id,
             },
         });
+
+        // Log the initial stage in the status history
+        await prisma.statusHistory.create({
+            data: {
+                stage: application.stage,
+                applicationId: application.id,
+            },
+        });
+
         res.status(201).json(application);
     } catch (error) {
         res.status(500).json({ message: "Server error while creating the application."});

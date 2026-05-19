@@ -105,6 +105,23 @@ const ApplicationModal = ({application, initialStage, onClose, onSave, onDelete}
             <label style={{ display: "block", fontSize: "12px", marginBottom: "4px" }}>Notes</label>
             <textarea name="notes" value={formData.notes} onChange={handleChange} rows={3} style={{ width: "100%", padding: "0.5rem", border: "1px solid #e5e7eb", borderRadius: "4px", boxSizing: "border-box", fontSize: "13px", resize: "vertical" }} />
           </div>
+          
+          {/* Status history - only shown when editing */}
+          {isEditing && application.history && application.history.length > 0 && (
+            <div style={{ marginBottom: "1rem" }}>
+              <label style={{ display: "block", fontSize: "12px", marginBottom: "6px", fontWeight: "500", color: "#555963" }}>Status history</label>
+              <div style={{ borderRadius: "6px", border: "1px solid #e5e7eb", overflow: "hidden" }}>
+                {application.history
+                  .sort((a, b) => new Date(b.changedAt) - new Date(a.changedAt))
+                  .map((entry, index) => (
+                    <div key={index} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 12px", borderBottom: index < application.history.length - 1 ? "1px solid #f0f2f5" : "none", backgroundColor: index % 2 === 0 ? "white" : "#f8faff" }}>
+                      <span style={{ fontSize: "12px", color: "#407AFC", fontWeight: "500" }}>→ {entry.stage.charAt(0) + entry.stage.slice(1).toLowerCase()}</span>
+                      <span style={{ fontSize: "11px", color: "#9ca3af" }}>{new Date(entry.changedAt).toLocaleDateString()}</span>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
 
           {/* Priority checkbox */}
           <div style={{ marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: "8px" }}>
