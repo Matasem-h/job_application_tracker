@@ -83,41 +83,43 @@ const KanbanPage = () => {
 
     if (loading) return <div style={{padding: "2rem"}}>Loading...</div>
 
-      return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f9fafb" }}>
+    return (
+    <div style={{ minHeight: "100vh", backgroundColor: "#f0f2f5" }}>
       <Navbar />
 
       {/* Toolbar */}
-      <div style={{ padding: "12px 16px", display: "flex", alignItems: "center", gap: "1rem", borderBottom: "1px solid #e5e7eb", backgroundColor: "white" }}>
-        <h1 style={{ margin: 0, fontSize: "15px", fontWeight: "600" }}>My applications</h1>
+      <div style={{ padding: "12px 24px", display: "flex", alignItems: "center", gap: "1rem", backgroundColor: "#f0f2f5", borderBottom: "2px solid #5B7EC9" }}>
+        <h1 style={{ margin: 0, fontSize: "15px", fontWeight: "700", color: "#262A33" }}>My applications</h1>
         <input
           type="search"
           placeholder="Search by company or role..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          style={{ padding: "6px 10px", border: "1px solid #e5e7eb", borderRadius: "4px", fontSize: "13px", width: "240px" }}
+          style={{ padding: "6px 12px", border: "1px solid #5B7EC9", borderRadius: "6px", fontSize: "13px", width: "240px", color: "#262A33", outline: "none", backgroundColor: "white" }}
         />
         <button
           onClick={() => handleAddClick("APPLIED")}
-          style={{ marginLeft: "auto", padding: "6px 14px", backgroundColor: "black", color: "white", border: "none", borderRadius: "4px", cursor: "pointer", fontSize: "13px" }}
+          style={{ marginLeft: "auto", padding: "8px 20px", backgroundColor: "#407AFC", color: "white", border: "none", borderRadius: "6px", cursor: "pointer", fontSize: "13px", fontWeight: "700", boxShadow: "0 2px 6px rgba(64,122,252,0.4)" }}
         >
-          + New
+          + New Application
         </button>
       </div>
 
-      {error && <p style={{ color: "red", padding: "1rem" }}>{error}</p>}
+      {error && <p style={{ color: "#dc2626", padding: "1rem" }}>{error}</p>}
 
-      {/* Kanban columns */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "12px", padding: "16px" }}>
-        {STAGES.map((stage) => (
-          <KanbanColumn
-            key={stage}
-            stage={stage}
-            applications={getStageApplications(stage)}
-            onCardClick={handleCardClick}
-            onAddClick={handleAddClick}
-          />
-        ))}
+      {/* Kanban columns — centered */}
+      <div style={{ display: "flex", justifyContent: "center", padding: "24px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 260px)", gap: "16px" }}>
+          {STAGES.map((stage) => (
+            <KanbanColumn
+              key={stage}
+              stage={stage}
+              applications={getStageApplications(stage)}
+              onCardClick={handleCardClick}
+              onAddClick={handleAddClick}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Modal */}

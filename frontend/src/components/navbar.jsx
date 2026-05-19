@@ -13,22 +13,22 @@ const Navbar = () => {
     }
 
   return (
-    <nav style={{ backgroundColor: "white", borderBottom: "1px solid #e5e7eb", padding: "0 1.5rem", height: "48px", display: "flex", alignItems: "center", gap: "1rem" }}>
+    <nav style={{ backgroundColor: "#262A33", padding: "0 1.5rem", height: "52px", display: "flex", alignItems: "center", gap: "1rem" }}>
       {/* Logo */}
-      <span style={{ fontSize: "15px", fontWeight: "600", marginRight: "1rem" }}>Job Tracker</span>
+      <span style={{ fontSize: "16px", fontWeight: "700", marginRight: "1rem", color: "white" }}>Job Tracker</span>
 
       {/* Navigation links */}
-      <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: location.pathname === "/" ? "600" : "400", padding: "4px 8px", borderRadius: "4px", backgroundColor: location.pathname === "/" ? "#f3f4f6" : "transparent" }}>
-        Board
+      <button onClick={() => navigate("/")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: "500", padding: "6px 14px", borderRadius: "6px", color: location.pathname === "/" ? "white" : "#9ca3af", backgroundColor: location.pathname === "/" ? "#407AFC" : "transparent" }}>
+        📋 Board
       </button>
-      <button onClick={() => navigate("/dashboard")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: location.pathname === "/dashboard" ? "600" : "400", padding: "4px 8px", borderRadius: "4px", backgroundColor: location.pathname === "/dashboard" ? "#f3f4f6" : "transparent" }}>
-        Dashboard
+      <button onClick={() => navigate("/dashboard")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: "500", padding: "6px 14px", borderRadius: "6px", color: location.pathname === "/dashboard" ? "white" : "#9ca3af", backgroundColor: location.pathname === "/dashboard" ? "#407AFC" : "transparent" }}>
+        📊 Statistics
       </button>
 
       {/* Right side */}
       <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "1rem" }}>
-        <span style={{ fontSize: "13px", color: "#6b7280" }}>{user?.email}</span>
-        <button onClick={handleLogout} style={{ fontSize: "13px", padding: "5px 12px", cursor: "pointer", border: "1px solid #e5e7eb", borderRadius: "4px", background: "none" }}>
+        <span style={{ fontSize: "13px", color: "#627296" }}>{user?.email}</span>
+        <button onClick={handleLogout} style={{ fontSize: "13px", padding: "5px 14px", cursor: "pointer", border: "1px solid #555963", borderRadius: "6px", background: "none", color: "#9ca3af" }}>
           Log out
         </button>
       </div>
